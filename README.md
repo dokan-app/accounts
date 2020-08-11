@@ -1,16 +1,6 @@
-# NestJs QuickStart
+# accounts.dokan.app
 
-### Modules
-- Admin
-- User
-- Session
-- Role
-- Auth
-
-### Integrations
-- Typegoose
-- Passportjs
-
+dokan.app authentication module
 
 ## Installation
 
@@ -34,5 +24,5 @@ $ npm run start:prod
 ## API Documentation
 
 ```bash
-<APP_URL>/api
+<APP_URL>/api-documentation
 ```
