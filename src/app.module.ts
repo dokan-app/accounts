@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RedisModule } from 'nestjs-redis';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { SessionModule as NestSessionModule } from 'nestjs-session';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,34 +12,17 @@ import { JwtModule } from '@nestjs/jwt';
 import { RoleModule } from './role/role.module';
 import { UsersModule } from './users/users.module';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './auth/passport-strategies/local.strategy';
-import { Redis } from 'ioredis';
+import { AdminLoginStrategy } from './auth/passport-strategies/admin-login-local.strategy';
+import { AdminSessionSerializer } from './auth/passport-strategies/admin-session-serializer.strategy';
+import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 const config: ConfigService = new ConfigService();
 
 @Module({
   imports: [
     PassportModule,
-    RedisModule.register({
-      onClientReady: async (client: Redis) => {
-        client.on('error', err => {
-          console.log(err);
-        });
-        client.on('connect', () => {
-          console.log('Redis server connected');
-        });
-      },
-      name: 'dokan-app',
-      // password: '4ZfYRWznWKFA4HChY9kPeeI7J0OT1Ub4',
-      // url: 'redis-13171.c8.us-east-1-3.ec2.cloud.redislabs.com',
-      // port: 13171,
-    }),
-    NestSessionModule.forRoot({
-      session: { secret: 'skhfskfhsd', resave: false },
-    }),
-
     ConfigModule.forRoot({ isGlobal: true }),
     {
-      ...JwtModule.register({ secret: config.get('JWT_SECRET') }),
+      ...JwtModule.register({ secret: config.get('APP_SECRET') }),
       global: true,
     },
     TypegooseModule.forRoot(config.get('DATABASE_URL'), {
@@ -54,8 +35,9 @@ const config: ConfigService = new ConfigService();
     AuthModule,
     RoleModule,
     UsersModule,
+    AdminDashboardModule,
   ],
   controllers: [AppController],
-  providers: [AppService, LocalStrategy],
+  providers: [AppService, AdminLoginStrategy, AdminSessionSerializer],
 })
 export class AppModule {}

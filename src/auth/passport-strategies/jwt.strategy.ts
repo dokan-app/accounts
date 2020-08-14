@@ -18,7 +18,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
         ExtractJwt.fromBodyField('token'),
       ]),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET'),
+      secretOrKey: configService.get<string>('APP_SECRET'),
     });
   }
 

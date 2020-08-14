@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JWTStrategy } from './passport-strategies/jwt.strategy';
 import { FacebookStategy } from './passport-strategies/facebook.strategy';
+import { AdminSessionSerializer } from './passport-strategies/admin-session-serializer.strategy';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { FacebookStategy } from './passport-strategies/facebook.strategy';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
+        secret: configService.get<string>('APP_SECRET'),
       }),
     }),
     AdminModule,
@@ -26,7 +27,12 @@ import { FacebookStategy } from './passport-strategies/facebook.strategy';
     RoleModule,
     PassportModule,
   ],
-  providers: [AuthService, JWTStrategy, FacebookStategy],
+  providers: [
+    AuthService,
+    JWTStrategy,
+    FacebookStategy,
+    AdminSessionSerializer,
+  ],
   exports: [AuthService],
   controllers: [AuthController],
 })

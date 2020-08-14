@@ -37,7 +37,7 @@ export class AuthController {
 
   @Post('/admin/login')
   @HttpCode(HttpStatus.OK)
-  loginAdmin(@Body() body: AdminLoginDTO): Promise<AuthPayload> {
+  loginAdmin(@Body() body: AdminLoginDTO): any {
     return this.authService.loginAdmin(body);
   }
 

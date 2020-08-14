@@ -16,7 +16,10 @@ export class PaginationQueryDTO {
   sort?: string;
 }
 
+export interface AppRequest extends Request {
+  user: AuthPayload;
+}
 
-export interface AppRequest extends Request{
-  user: AuthPayload
+export interface AdminSession {
+  adminId: string;
 }
