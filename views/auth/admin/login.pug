@@ -1,9 +1,9 @@
-extends ../../layouts/blank.pug
+extends /layouts/main.pug
 
 block body
     .container
         .row
-            .col-md-4.mx-auto
+            .col-md-4
                 .card
                     .card-body
                         form(action='/auth/admin/login' method='POST')
@@ -15,3 +15,4 @@ block body
                                 input#password.form-control(type='password' placeholder='********' name='password')
                             .form-group
                                 button.btn.btn-primary(type="submit") Login
+                        a(href="/auth/admin/register") Create new account

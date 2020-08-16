@@ -1,20 +1,29 @@
-.container
-  .row
-    .col-md-4.mx-auto
-      .card
-        .card-body
-          form(action='/auth/admin/register' method='POST')
-            .form-group
-              label(for='name') Name
-              input#name.form-control(type='text' placeholder='Username/email' name='name')
-            .form-group
-              label(for='name') Username
-              input#username.form-control(type='text' placeholder='Username' name='username')
-            .form-group
-              label(for='name') Email
-              input#email.form-control(type='email' placeholder='email' name='email')
-            .form-group
-              label(for='password') Password
-              input#password.form-control(type='password' placeholder='*************' name='password')
-            .form-group
-              button.btn.btn-primary Register
+extends /layouts/main.pug
+
+block body
+  .container
+    .row
+      .col-md-5
+        .card
+          .card-header Register Admin
+          .card-body
+            form(action='/auth/admin/register' method='POST')
+              .form-group
+                label(for='name') Name
+                input#name.form-control(type='text' placeholder='Username/email' name='name' class= errors.username ? "is-invalid": "")
+                .invalid-feedback=errors.name
+              .form-group
+                label(for='username') Username
+                input#username.form-control(type='text' placeholder='Username' name='username' class= errors.username ? "is-invalid": "")
+                .invalid-feedback=errors.username
+              .form-group
+                label(for='email') Email
+                input#email.form-control(type='email' placeholder='email' name='email' class= errors.username ? "is-invalid": "")
+                .invalid-feedback=errors.email
+              .form-group
+                label(for='password') Password
+                input#password.form-control(type='password' placeholder='******' name='password' class= errors.username ? "is-invalid": "")
+                .invalid-feedback=errors.email
+              .form-group
+                button.btn.btn-primary Register
+            a(href="/auth/admin/login") Login

@@ -1,21 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { TypegooseModule } from 'nestjs-typegoose';
+import { PassportModule } from '@nestjs/passport';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdminModule } from './admin/admin.module';
 import { SessionModule } from './session/session.module';
 import { AuthModule } from './auth/auth.module';
-
-import { TypegooseModule } from 'nestjs-typegoose';
-import { JwtModule } from '@nestjs/jwt';
 import { RoleModule } from './role/role.module';
 import { UsersModule } from './users/users.module';
-import { PassportModule } from '@nestjs/passport';
-import { AdminLoginStrategy } from './auth/passport-strategies/admin-login-local.strategy';
-import { AdminSessionSerializer } from './auth/passport-strategies/admin-session-serializer.strategy';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AppsModule } from './apps/apps.module';
+
 const config: ConfigService = new ConfigService();
 
 @Module({
@@ -31,6 +29,7 @@ const config: ConfigService = new ConfigService();
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
+    AppsModule,
     AdminModule,
     SessionModule,
     AuthModule,
@@ -39,6 +38,6 @@ const config: ConfigService = new ConfigService();
     AdminDashboardModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AdminLoginStrategy, AdminSessionSerializer],
+  providers: [AppService],
 })
 export class AppModule {}

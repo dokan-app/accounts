@@ -1,0 +1,9 @@
+if errorMsg.length
+    .error.app_alert
+      | #{errorMsg}
+      button.app_alert__button(onclick="this.parentElement.remove()") &times;
+
+if successMsg.length
+    .success.app_alert
+      | #{successMsg}
+      button.app_alert__button(onclick="this.parentElement.remove()") &times;

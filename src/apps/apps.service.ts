@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { App } from './apps.model';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { destroy } from 'quick-crud';
+import { destroy, index } from 'quick-crud';
+import { CreateAppDTO } from './apps.dto';
 
 @Injectable()
 export class AppsService {
@@ -11,8 +12,12 @@ export class AppsService {
     private readonly model: ReturnModelType<typeof App>,
   ) {}
 
-  async create(name: string, redirectUrl: string): Promise<App> {
-    return this.model.create({ name, redirectUrl });
+  async list(): Promise<App[]> {
+    return this.model.find({});
+  }
+
+  async create(data: CreateAppDTO): Promise<App> {
+    return this.model.create(data);
   }
 
   async getByClientId(clientid: string): Promise<any> {

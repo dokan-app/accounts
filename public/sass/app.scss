@@ -1,0 +1,33 @@
+.app_alert {
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+
+  &.error {
+    background-color: #e74c3c;
+  }
+  &.success {
+    background-color: #27ae60;
+  }
+  &__button {
+    position: absolute;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

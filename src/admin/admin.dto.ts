@@ -14,4 +14,3 @@ export class CreateAdminDTO {
   @IsNotEmpty()
   password: string;
 }
-

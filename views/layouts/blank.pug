@@ -2,14 +2,16 @@ doctype html
 head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Accounts | {{ title }}
+  title #{title} | Dokan Accounts 
   link(rel='stylesheet' href='/css/bootstrap.css')
+  link(rel='stylesheet' href='/css/app.css')
   block headerHook
+
+include /partials/_alert.pug
 
 .container.my-4
   .row
     .col-md-12
-      include ../partials/errorMsg.pug
       block body
 
 

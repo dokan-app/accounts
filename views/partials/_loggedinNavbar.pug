@@ -1,3 +1,4 @@
+form(action="/auth/logout" method="POST" id="logout-form")
 nav.navbar.navbar-expand-lg.navbar-light.bg-light
   a.navbar-brand(href='/') accounts.dokan.app
   button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar' aria-controls='navbar' aria-expanded='false' aria-label='Toggle navigation')
@@ -7,4 +8,4 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
       li.nav-item
         a.nav-link(href='/auth/login') Update Profile
       li.nav-item
-        a.nav-link(href='/auth/logout') Logout
+        a.nav-link(href='javascript:void(0)' onclick="confirm('Sure to logout?') && document.getElementById('logout-form').submit()") Logout

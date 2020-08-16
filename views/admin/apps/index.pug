@@ -1,5 +1,7 @@
-extends ../../layouts/admin.pug
+extends /layouts/admin.pug
 
 block body
-    h1 Apps
-    a.btn.btn-primary.btn-sm(href="/admin-dashboard/apps/create") new App
+    h2 Registered Apps
+    a.btn.btn-primary.btn-sm(href="/apps/create") New App
+
+    pre=JSON.stringify(apps,undefined,4)

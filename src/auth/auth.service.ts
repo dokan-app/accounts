@@ -18,6 +18,7 @@ import { AUTH_DOMAIN, JWTPayload } from 'src/session/session.types';
 import { RoleService } from 'src/role/role.service';
 import { User } from 'src/users/users.model';
 import { UsersService } from 'src/users/users.service';
+import { PermissionDeniedException } from 'src/shared/exceptions/PermissionDeniedException';
 
 @Injectable()
 export class AuthService {
@@ -31,8 +32,12 @@ export class AuthService {
   async registerAdmin(data: AdminRegisterDTO): Promise<Admin> {
     // 1. check if a there is already an admin
     const count = await this.adminService.count();
-    if (count)
-      throw new ForbiddenException('Admin registration has been truned off');
+    if (count) {
+      throw new PermissionDeniedException(
+        'Admin registration has been truned off',
+      );
+    }
+
     this.roleService.createDefaultRole();
 
     return this.adminService.create(data);
@@ -58,9 +63,6 @@ export class AuthService {
       admin._id,
       AUTH_DOMAIN.ADMIN,
     );
-
-    if (res)
-      res.cookie('token', 'keyboard cat', { maxAge: 900000, httpOnly: true });
 
     return payload;
   }

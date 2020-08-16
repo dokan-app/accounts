@@ -5,6 +5,7 @@ import {
   HttpException,
   UnauthorizedException,
   ForbiddenException,
+  BadRequestException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { PermissionDeniedException } from '../exceptions/PermissionDeniedException';
@@ -20,22 +21,26 @@ export class UnauthorizedExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<IRequestFlash>();
 
-    console.log(exception.message);
+    console.log(exception.name);
 
-    if (exception instanceof UnauthorizedException) {
-      request.flash('errorMsg', 'Invalid credentials');
-      response.redirect(request.url);
-    }
+    // if (exception instanceof BadRequestException) {
+    //   request.flash('errorMsg', 'Validation error');
+    // }
 
-    if (
-      exception instanceof ForbiddenException ||
-      exception instanceof PermissionDeniedException
-    ) {
-      request.flash('errorMsg', exception.message);
-      response.redirect('/');
-    } else {
-      request.flash('errorMsg', exception.message);
-      response.redirect(request.url);
-    }
+    // if (exception instanceof UnauthorizedException) {
+    //   request.flash('errorMsg', 'Invalid credentials');
+    //   response.redirect(request.url);
+    // }
+
+    // if (
+    //   exception instanceof ForbiddenException ||
+    //   exception instanceof PermissionDeniedException
+    // ) {
+    //   request.flash('errorMsg', exception.message);
+    //   response.redirect('/');
+    // } else {
+    //   request.flash('errorMsg', exception.message);
+    //   response.redirect(request.url);
+    // }
   }
 }

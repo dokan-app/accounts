@@ -1,8 +1,9 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-
-export class PermissionDeniedException extends HttpException {
-  constructor() {
-    // message = 'Permission denied'
-    super('PermissionDeniedException', HttpStatus.FORBIDDEN);
+/**
+ * @class PermissionDeniedException
+ */
+export class PermissionDeniedException extends Error {
+  constructor(msg = 'Permission denied') {
+    super(msg);
+    this.name = 'PermissionDeniedException';
   }
 }

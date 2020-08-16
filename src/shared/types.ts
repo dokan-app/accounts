@@ -30,6 +30,7 @@ export interface AppRequest extends Request {
   login: any;
   logout: any;
   isAuthenticated: any;
+  flash: any;
 }
 
 export interface AdminSession {

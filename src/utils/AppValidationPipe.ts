@@ -16,6 +16,7 @@ export class AppValidationPipe extends ValidationPipe {
       statusCode: this.errorHttpStatusCode,
     };
   }
+
   public createExceptionFactory() {
     return (validationErrors: ValidationError[] = []) => {
       if (this.isDetailedOutputDisabled) {

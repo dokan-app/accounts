@@ -14,11 +14,19 @@ import * as cookie from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { UnauthorizedExceptionFilter } from './shared/filters/ManageRedirect.filters';
+import { PageNotFoundExceptionFilter } from './shared/filters/PageNotFound.filters';
+import { ValidationExceptionFilter } from './shared/filters/ValidationError.filters';
+import { PermissionDeniedExceptionFilter } from './shared/filters/PermissionDeniedExceptionFilter';
+import { ForbiddenExceptionFilter } from './shared/filters/ForbiddenExceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const express = app.getHttpAdapter().getInstance();
   app.useGlobalPipes(new AppValidationPipe());
+
+  /**
+   * Initialize config
+   */
   const config = app.get(ConfigService);
 
   /**
@@ -26,6 +34,7 @@ async function bootstrap() {
    */
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.set('view engine', 'pug');
+  express.locals.basedir = join(__dirname, '../views');
   app.set('views', join(__dirname, '../views'));
 
   const options = new DocumentBuilder()
@@ -57,10 +66,15 @@ async function bootstrap() {
     res.locals.isAutenticated = req.isAuthenticated();
     res.locals.user = req.user;
     res.locals.errorMsg = req.flash('errorMsg');
+    res.locals.successMsg = req.flash('successMsg');
+    res.locals.errors = req.flash('errors')[0] || {};
     next();
   });
 
-  app.useGlobalFilters(new UnauthorizedExceptionFilter());
+  app.useGlobalFilters(new ForbiddenExceptionFilter());
+  app.useGlobalFilters(new PageNotFoundExceptionFilter());
+  app.useGlobalFilters(new ValidationExceptionFilter());
+  app.useGlobalFilters(new PermissionDeniedExceptionFilter());
 
   const port = config.get<string>('PORT');
   await app.listen(port || 3000);
