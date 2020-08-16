@@ -15,6 +15,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AdminLoginStrategy } from './auth/passport-strategies/admin-login-local.strategy';
 import { AdminSessionSerializer } from './auth/passport-strategies/admin-session-serializer.strategy';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
+import { AppsModule } from './apps/apps.module';
 const config: ConfigService = new ConfigService();
 
 @Module({

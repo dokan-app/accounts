@@ -20,10 +20,13 @@ export class UnauthorizedExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<IRequestFlash>();
 
+    console.log(exception.message);
+
     if (exception instanceof UnauthorizedException) {
       request.flash('errorMsg', 'Invalid credentials');
       response.redirect(request.url);
     }
+
     if (
       exception instanceof ForbiddenException ||
       exception instanceof PermissionDeniedException

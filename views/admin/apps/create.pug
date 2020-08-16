@@ -1,0 +1,14 @@
+extends ../../layouts/admin.pug
+
+block body
+    .container
+        .row
+            .col-md-6
+                h4 Create new app
+                form.my-4(action="/admin-dashboard/apps/create" method="POST")
+                    .form-group
+                        input.form-control(type="text" name="name" placeholder="App name" required)
+                    .form-group
+                        input.form-control(type="url" name="redirectUrl" placeholder="Redirect url")
+                    .form-group
+                        button.btn.btn-primary.btn-sm create
