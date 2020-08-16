@@ -1,0 +1,19 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Accounts | {{ title }}
+  link(rel='stylesheet' href='/css/bootstrap.css')
+  block headerHook
+
+.container.my-4
+  .row
+    .col-md-12
+      include ../partials/errorMsg.pug
+      block body
+
+
+script(src='/js/jquery-3.5.1.slim.min.js')
+script(src='/js/popper.min.js')
+script(src='/js/bootstrap.min.js')
+block footerHook

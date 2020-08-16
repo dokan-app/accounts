@@ -48,15 +48,10 @@ export class AppController {
     return { title: 'Register' };
   }
 
-  @Post('/auth/login')
-  @UseGuards(AuthGuard('local'))
-  doLogin(
-    @Req() req: AppRequest,
-    @Res() res: Response,
-    @Session() session: { user: string },
-  ): any {
-    session.user = req.user.sub;
-    res.redirect('/me');
+  @Get('/auth/logout')
+  logout(@Req() req: AppRequest, @Res() res: Response): any {
+    req.logout();
+    res.redirect('/');
   }
 
   @Post('/auth/register')
@@ -66,9 +61,8 @@ export class AppController {
 
   @UseGuards(AdminLoginGuard)
   @Post('/auth/admin/login')
-  doAdminLogin(@Res() res: Response, @Req() req: Request): any {
-    res.redirect('/home');
-    // return this.appService.loginAdmin(req.body);
+  doAdminLogin(@Res() res: Response): any {
+    return res.redirect('/admin-dashboard');
   }
 
   @Post('/auth/admin/register')

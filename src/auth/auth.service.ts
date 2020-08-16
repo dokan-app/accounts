@@ -3,11 +3,10 @@ import {
   ForbiddenException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { AdminService } from '../admin/admin.service';
 import { SessionService } from 'src/session/session.service';
 import { Admin } from 'src/admin/admin.model';
-import { DocumentType } from '@typegoose/typegoose';
+import { Response } from 'express';
 import {
   AdminRegisterDTO,
   AdminLoginDTO,
@@ -16,7 +15,6 @@ import {
   UserLoginDTO,
 } from './auth.dto';
 import { AUTH_DOMAIN, JWTPayload } from 'src/session/session.types';
-import { JwtService } from '@nestjs/jwt';
 import { RoleService } from 'src/role/role.service';
 import { User } from 'src/users/users.model';
 import { UsersService } from 'src/users/users.service';
@@ -27,9 +25,7 @@ export class AuthService {
     private readonly adminService: AdminService,
     private readonly usersService: UsersService,
     private readonly roleService: RoleService,
-    private readonly config: ConfigService,
     private readonly session: SessionService,
-    private readonly jwt: JwtService,
   ) {}
 
   async registerAdmin(data: AdminRegisterDTO): Promise<Admin> {
@@ -46,8 +42,7 @@ export class AuthService {
    * Login an admin
    * @param data AdminLoginDTO
    */
-  async loginAdmin(data: AdminLoginDTO): Promise<AuthPayload> {
-    console.log(data);
+  async loginAdmin(data: AdminLoginDTO, res?: Response): Promise<AuthPayload> {
     const { identifier, password } = data;
 
     // find admin with identifier
@@ -59,11 +54,15 @@ export class AuthService {
     if (!passwordMatched) throw new UnauthorizedException();
 
     // generate token for admin
-    const token = await this.session.findOrCreateSession(
+    const payload = await this.session.findOrCreateSession(
       admin._id,
       AUTH_DOMAIN.ADMIN,
     );
-    return token;
+
+    if (res)
+      res.cookie('token', 'keyboard cat', { maxAge: 900000, httpOnly: true });
+
+    return payload;
   }
 
   /**

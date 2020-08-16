@@ -1,0 +1,17 @@
+extends ../../layouts/blank.pug
+
+block body
+    .container
+        .row
+            .col-md-4.mx-auto
+                .card
+                    .card-body
+                        form(action='/auth/admin/login' method='POST')
+                            .form-group
+                                label(for='username') Email/username
+                                input#username.form-control(type='text' name='identifier')
+                            .form-group
+                                label(for='password') Password
+                                input#password.form-control(type='password' placeholder='********' name='password')
+                            .form-group
+                                button.btn.btn-primary(type="submit") Login

@@ -11,7 +11,7 @@ import { MongoExceptionFilter } from 'src/utils/app-exception.filter';
 import { ApiPaginationQuery } from 'src/shared/decorators/api-pagination.decorator';
 
 @ApiTags('Role')
-@Controller('role')
+@Controller('api/role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 

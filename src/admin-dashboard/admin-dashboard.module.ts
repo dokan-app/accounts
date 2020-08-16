@@ -4,6 +4,6 @@ import { AdminDashboardController } from './admin-dashboard.controller';
 
 @Module({
   providers: [AdminDashboardService],
-  controllers: [AdminDashboardController]
+  controllers: [AdminDashboardController],
 })
 export class AdminDashboardModule {}

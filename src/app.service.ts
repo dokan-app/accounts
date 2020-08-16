@@ -11,24 +11,7 @@ export class AppService {
     return this.authService.registerUser(data);
   }
 
-  async userLogin(data: UserLoginDTO): Promise<any> {
-    return this.authService.loginUser(data);
-  }
-
   async registerAdmin(data: UserLoginDTO): Promise<any> {
     return this.authService.loginUser(data);
-  }
-
-  async loginAdmin(
-    data: UserLoginDTO,
-    @Session() session: AdminSession,
-  ): Promise<any> {
-    try {
-      const res = await this.authService.loginAdmin(data);
-      session.adminId = res.sub;
-      return;
-    } catch (error) {
-      return 'Invalid Credentials';
-    }
   }
 }

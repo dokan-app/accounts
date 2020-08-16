@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppValidationPipe } from './utils/AppValidationPipe';
-import * as hbs from 'hbs';
 
 /**
  * Session and passport
@@ -10,10 +9,12 @@ import * as hbs from 'hbs';
 import * as session from 'express-session';
 import flash = require('connect-flash');
 import * as passport from 'passport';
+import * as cookie from 'cookie-parser';
 
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { UnauthorizedExceptionFilter } from './shared/filters/ManageRedirect.filters';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -24,9 +25,8 @@ async function bootstrap() {
    * Template engine
    */
   app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  hbs.registerPartials(join(__dirname, '..', 'views/partials'));
-  app.setViewEngine('hbs');
+  app.set('view engine', 'pug');
+  app.set('views', join(__dirname, '../views'));
 
   const options = new DocumentBuilder()
     .setTitle('Dokan OAuth API')
@@ -45,9 +45,13 @@ async function bootstrap() {
     }),
   );
 
+  /**
+   * Initialize Passport
+   */
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
+  app.use(cookie());
 
   app.use(function(req, res, next) {
     res.locals.isAutenticated = req.isAuthenticated();
@@ -55,6 +59,8 @@ async function bootstrap() {
     res.locals.errorMsg = req.flash('errorMsg');
     next();
   });
+
+  app.useGlobalFilters(new UnauthorizedExceptionFilter());
 
   const port = config.get<string>('PORT');
   await app.listen(port || 3000);

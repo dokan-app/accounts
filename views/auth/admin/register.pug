@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-md-4.mx-auto
+      .card
+        .card-body
+          form(action='/auth/admin/register' method='POST')
+            .form-group
+              label(for='name') Name
+              input#name.form-control(type='text' placeholder='Username/email' name='name')
+            .form-group
+              label(for='name') Username
+              input#username.form-control(type='text' placeholder='Username' name='username')
+            .form-group
+              label(for='name') Email
+              input#email.form-control(type='email' placeholder='email' name='email')
+            .form-group
+              label(for='password') Password
+              input#password.form-control(type='password' placeholder='*************' name='password')
+            .form-group
+              button.btn.btn-primary Register

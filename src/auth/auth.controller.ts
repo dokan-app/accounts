@@ -8,7 +8,9 @@ import {
   UseFilters,
   Get,
   UseGuards,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import {
   AdminRegisterDTO,
   AdminLoginDTO,
@@ -26,7 +28,7 @@ import { MongoExceptionFilter } from 'src/utils/app-exception.filter';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Authentication')
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -37,8 +39,8 @@ export class AuthController {
 
   @Post('/admin/login')
   @HttpCode(HttpStatus.OK)
-  loginAdmin(@Body() body: AdminLoginDTO): any {
-    return this.authService.loginAdmin(body);
+  loginAdmin(@Body() body: AdminLoginDTO, @Res() res: Response): any {
+    return this.authService.loginAdmin(body, res);
   }
 
   @Auth(AUTH_DOMAIN.ADMIN)

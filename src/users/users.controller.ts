@@ -6,7 +6,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { ApiPaginationQuery } from 'src/shared/decorators/api-pagination.decorator';
 import { RoleService } from 'src/role/role.service';
 
-@Controller('users')
+@Controller('api/users')
 @ApiTags('User')
 export class UsersController {
   constructor(

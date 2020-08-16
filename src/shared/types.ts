@@ -1,5 +1,6 @@
 import {} from 'class-validator';
 import { AuthPayload } from 'src/auth/auth.dto';
+import { AUTH_DOMAIN } from 'src/session/session.types';
 
 export interface ResourceList<DataModel> {
   currentPage: number;
@@ -16,8 +17,19 @@ export class PaginationQueryDTO {
   sort?: string;
 }
 
+export interface SessionUser {
+  name: string;
+  username: string;
+  email: string;
+  domain: AUTH_DOMAIN;
+  token: string;
+}
+
 export interface AppRequest extends Request {
-  user: AuthPayload;
+  user: SessionUser;
+  login: any;
+  logout: any;
+  isAuthenticated: any;
 }
 
 export interface AdminSession {
