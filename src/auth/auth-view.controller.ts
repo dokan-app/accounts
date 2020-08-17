@@ -22,6 +22,7 @@ export class AuthviewController {
   @Post('logout')
   logout(@Req() req: AppRequest, @Res() res: Response) {
     req.logout();
+    res.clearCookie('token');
     req.flash('successMsg', 'You have been logged out');
     res.redirect('/');
   }
@@ -40,7 +41,13 @@ export class AuthviewController {
 
   @UseGuards(AdminLoginGuard)
   @Post('admin/login')
-  doAdminLogin(@Res() res: Response): any {
+  doAdminLogin(@Req() req: AppRequest, @Res() res: Response): any {
+    console.log('admin/login', req.user.token);
+    res.cookie('token', req.user.token, {
+      maxAge: 1000 * 1 * 60 * 60 * 24 * 365,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
     return res.redirect('/admin-dashboard');
   }
 
