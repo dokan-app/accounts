@@ -1,0 +1,18 @@
+mixin AppForm(app={})
+    .container
+        .row
+            .col-md-6
+                h4= app._id ? "Update App": "Register new app"
+                form.my-4(action=app._id ? `/apps/update/${app._id}` : "/apps/store" method="POST")
+                    .form-group
+                        label(for="name") Application name
+                        input.form-control(value=app.name type="text" name="name" id="name" placeholder="App name" class= errors.name ? "is-invalid": "")
+                        .invalid-feedback=errors.name
+
+                    .form-group
+                        label(for="redirectUrl") Authorization callback URL
+                        input.form-control(value=app.redirectUrl type="url" name="redirectUrl" id="redirectUrl" placeholder="Redirect url" class= errors.redirectUrl ? "is-invalid": "")
+                        .invalid-feedback=errors.redirectUrl
+
+                    .form-group
+                        button.btn.btn-primary.btn-sm Save

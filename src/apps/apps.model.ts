@@ -1,4 +1,4 @@
-import { prop, pre, plugin } from '@typegoose/typegoose';
+import { prop, pre, plugin, modelOptions } from '@typegoose/typegoose';
 import { hashSync } from 'bcryptjs';
 import * as uniqueValidator from 'mongoose-unique-validator';
 import { randomBytes } from 'crypto';
@@ -10,6 +10,7 @@ import { randomBytes } from 'crypto';
   this.clientSecret = hashSync(token);
   this.clientId = token;
 })
+@modelOptions({ schemaOptions: { timestamps: true } })
 export class App {
   @prop({ required: true })
   name: string;

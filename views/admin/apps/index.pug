@@ -1,7 +1,11 @@
 extends /layouts/admin.pug
+include _app-card.pug
 
 block body
     h2 Registered Apps
     a.btn.btn-primary.btn-sm(href="/apps/create") New App
-
-    pre=JSON.stringify(apps,undefined,4)
+    
+    // pre=dump(apps)
+    .my-4
+        each app in apps
+            +AppCard(app)

@@ -68,6 +68,9 @@ async function bootstrap() {
     res.locals.errorMsg = req.flash('errorMsg');
     res.locals.successMsg = req.flash('successMsg');
     res.locals.errors = req.flash('errors')[0] || {};
+    res.locals.dump = function(obj: any) {
+      return JSON.stringify(obj, undefined, 4);
+    };
     next();
   });
 

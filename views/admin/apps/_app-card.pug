@@ -1,0 +1,19 @@
+mixin AppCard(app={})
+    form(action=`/apps/destroy/${app._id}` id=`app-delete-${app._id}` method="POST")
+    .card.mb-4
+        .card-header.flex.items-center
+            | #{app.name}
+            .float-right
+                .btn-group
+                    a.btn.btn-success.btn-sm(href=`/apps/edit/${app._id}`) Edit
+                    button.btn.btn-danger.btn-sm(onclick="confirm('Sure to delete?') && document.getElementById('app-delete-"+ app._id +"').submit()") &times;
+        .card-body
+            div 
+                b App ID:
+                span &nbsp;&nbsp;#{app._id}
+            div
+                b Client ID
+                span &nbsp;&nbsp;#{app.clientId}
+            div
+                b Client secret
+                span &nbsp;&nbsp;#{app.clientSecret}
