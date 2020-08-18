@@ -1,17 +1,43 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { useQuery } from 'react-query';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 
-const Admin = () => {
-  const { isLoading, error, data } = useQuery('repoData', () =>
-    axios.get('/api/apps', { withCredentials: true }),
-  );
+import { ReactQueryDevtools } from 'react-query-devtools';
+import { ReactQueryConfigProvider } from 'react-query';
 
+import Layout from './components/Layout';
+import HomePage from './pages/root';
+import AppIndex from './pages/apps';
+import CreateApp from './pages/apps/create';
+
+const defaultQueryFn = async key => {
+  const { data } = await axios.get(`/${key}`, { withCredentials: true });
+  return data;
+};
+
+const Admin = () => {
   return (
-    <pre className="bg-indigo-500 text-white">
-      {JSON.stringify(data, undefined, 4)}
-    </pre>
+    <ReactQueryConfigProvider
+      config={{
+        queries: {
+          queryFn: defaultQueryFn,
+        },
+      }}
+    >
+      <HashRouter>
+        <Switch>
+          <Layout>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/apps" component={AppIndex} />
+            <Route exact path="/apps/create" component={CreateApp} />
+          </Layout>
+        </Switch>
+      </HashRouter>
+      {process.env.NODE_ENV === 'development' && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
+    </ReactQueryConfigProvider>
   );
 };
 

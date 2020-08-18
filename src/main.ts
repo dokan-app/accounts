@@ -18,11 +18,11 @@ import { PageNotFoundExceptionFilter } from './shared/filters/PageNotFound.filte
 import { ValidationExceptionFilter } from './shared/filters/ValidationError.filters';
 import { PermissionDeniedExceptionFilter } from './shared/filters/PermissionDeniedExceptionFilter';
 import { ForbiddenExceptionFilter } from './shared/filters/ForbiddenExceptionFilter';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const express = app.getHttpAdapter().getInstance();
-  app.useGlobalPipes(new AppValidationPipe());
 
   /**
    * Initialize config
@@ -75,6 +75,7 @@ async function bootstrap() {
     next();
   });
 
+  app.useGlobalPipes(new AppValidationPipe());
   app.useGlobalFilters(new ForbiddenExceptionFilter());
   app.useGlobalFilters(new PageNotFoundExceptionFilter());
   app.useGlobalFilters(new ValidationExceptionFilter());

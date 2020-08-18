@@ -4,6 +4,7 @@ import {
   ArgumentsHost,
   HttpException,
   NotFoundException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AppRequest } from '../types';
@@ -16,12 +17,12 @@ export class PageNotFoundExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<AppRequest>();
 
     if (request.url.includes('/api/')) {
-      response.status(404).json({
-        statusCode: 404,
+      response.status(HttpStatus.NOT_FOUND).json({
+        statusCode: HttpStatus.NOT_FOUND,
         message: 'Not Found',
       });
     } else {
-      response.render('notFound');
+      response.status(HttpStatus.NOT_FOUND).render('notFound');
     }
   }
 }

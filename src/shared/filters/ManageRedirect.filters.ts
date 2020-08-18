@@ -21,8 +21,6 @@ export class UnauthorizedExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<IRequestFlash>();
 
-    console.log(exception.name);
-
     // if (exception instanceof BadRequestException) {
     //   request.flash('errorMsg', 'Validation error');
     // }

@@ -23,7 +23,7 @@ export class PermissionDeniedExceptionFilter implements ExceptionFilter {
       });
     } else {
       request.flash('errorMsg', exception.message);
-      response.redirect('back');
+      response.status(HttpStatus.FORBIDDEN).redirect('back');
     }
   }
 }

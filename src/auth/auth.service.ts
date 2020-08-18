@@ -50,8 +50,6 @@ export class AuthService {
   async loginAdmin(data: AdminLoginDTO): Promise<AuthPayload> {
     const { identifier, password } = data;
 
-    console.log({ identifier, password });
-
     // find admin with identifier
     const admin = await this.adminService.getByIdentifier(identifier);
     if (!admin) throw new UnauthorizedException();
