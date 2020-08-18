@@ -1,9 +1,9 @@
-mixin Input(props = {}, errors={})
+mixin Input(props={}, errors={})
     .form-group
-    
         label(for=props.name) #{props.name[0].toUpperCase() + props.name.slice(1)}
 
         input.form-control(
+            class=errors[props.name] ? 'is-invalid': ''
             id=props.name 
             type=props.type || 'text'
             name=props.name 
@@ -11,4 +11,4 @@ mixin Input(props = {}, errors={})
             placeholder=props.placeholder
         )&attributes(attributes)
 
-        .invalid-feedback=errors[name]
+        .invalid-feedback=errors[props.name]

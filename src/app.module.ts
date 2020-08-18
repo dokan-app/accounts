@@ -13,6 +13,7 @@ import { RoleModule } from './role/role.module';
 import { UsersModule } from './users/users.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AppsModule } from './apps/apps.module';
+import { UserDashbaordModule } from './user-dashbaord/user-dashbaord.module';
 
 const config: ConfigService = new ConfigService();
 
@@ -37,6 +38,7 @@ const config: ConfigService = new ConfigService();
     RoleModule,
     UsersModule,
     AdminDashboardModule,
+    UserDashbaordModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -4,7 +4,7 @@ import { AUTH_DOMAIN } from 'src/session/session.types';
 import { PermissionDeniedException } from 'src/shared/exceptions/PermissionDeniedException';
 
 @Injectable()
-export class AuthenticatedAdminGuard implements CanActivate {
+export class AuthenticatedUserGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request: AppRequest = context.switchToHttp().getRequest();
 
@@ -12,7 +12,7 @@ export class AuthenticatedAdminGuard implements CanActivate {
       throw new PermissionDeniedException();
     }
 
-    if (request.user.domain !== AUTH_DOMAIN.ADMIN) {
+    if (request.user.domain !== AUTH_DOMAIN.USER) {
       throw new PermissionDeniedException();
     }
 

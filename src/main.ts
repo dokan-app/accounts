@@ -14,11 +14,15 @@ import * as cookie from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
+/**
+ * Filters
+ */
 import { PageNotFoundExceptionFilter } from './shared/filters/PageNotFound.filters';
 import { ValidationExceptionFilter } from './shared/filters/ValidationError.filters';
 import { PermissionDeniedExceptionFilter } from './shared/filters/PermissionDeniedExceptionFilter';
 import { ForbiddenExceptionFilter } from './shared/filters/ForbiddenExceptionFilter';
-import { ValidationPipe } from '@nestjs/common';
+import { UnAuthorizedExceptionFilter } from './shared/filters/UnAuthorizedExceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -75,6 +79,7 @@ async function bootstrap() {
     next();
   });
 
+  app.useGlobalFilters(new UnAuthorizedExceptionFilter());
   app.useGlobalPipes(new AppValidationPipe());
   app.useGlobalFilters(new ForbiddenExceptionFilter());
   app.useGlobalFilters(new PageNotFoundExceptionFilter());

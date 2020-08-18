@@ -10,9 +10,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JWTStrategy } from './passport-strategies/jwt.strategy';
 // import { FacebookStategy } from './passport-strategies/facebook.strategy';
-import { AdminSessionSerializer } from './passport-strategies/admin-session-serializer.strategy';
+import { SessionSerializer } from './passport-strategies/session-serializer.strategy';
 import { AuthviewController } from './auth-view.controller';
 import { AdminLoginStrategy } from './passport-strategies/admin-login-local.strategy';
+import { UserLoginStrategy } from './passport-strategies/user-login-local.strategy';
 
 @Module({
   imports: [
@@ -33,8 +34,9 @@ import { AdminLoginStrategy } from './passport-strategies/admin-login-local.stra
     AuthService,
     JWTStrategy,
     // FacebookStategy,
-    AdminSessionSerializer,
+    SessionSerializer,
     AdminLoginStrategy,
+    UserLoginStrategy,
   ],
   exports: [AuthService],
   controllers: [AuthviewController, AuthController],

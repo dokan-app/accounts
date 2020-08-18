@@ -32,15 +32,16 @@ export class UsersService {
   }
 
   async getById(_id: string): Promise<DocumentType<User>> {
-    return show({ model: this.model, where: { _id } });
+    const doc = await this.model.findById(_id);
+    return doc;
   }
 
   async getByUsername(username: string): Promise<DocumentType<User>> {
-    return show({ model: this.model, where: { username } });
+    return await show({ model: this.model, where: { username } });
   }
 
   async getByEmail(email: string): Promise<User> {
-    return show({ model: this.model, where: { email } });
+    return await show({ model: this.model, where: { email } });
   }
 
   async getByIdentifier(identifier: string): Promise<DocumentType<User>> {

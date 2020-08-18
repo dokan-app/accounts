@@ -14,6 +14,8 @@ import { AdminLoginGuard } from './guards/admin-login.guard';
 import { Response } from 'express';
 import { CreateAdminDTO } from 'src/admin/admin.dto';
 import { AppRequest } from 'src/shared/types';
+import { CreateUserDTO } from 'src/users/user.dto';
+import { UserLoginGuard } from './guards/user-login.guard';
 
 @Controller('auth')
 export class AuthviewController {
@@ -62,5 +64,41 @@ export class AuthviewController {
       console.log('heyyy');
     }
     return res.redirect('/admin/auth/login');
+  }
+
+  @Get('user/login')
+  @Render('auth/user/login')
+  userLogin(): any {
+    return { title: 'User login' };
+  }
+
+  @Post('user/login')
+  @UseGuards(UserLoginGuard)
+  doUserUserLogin(@Res() res: Response, @Req() req: AppRequest): any {
+    req.flash('successMsg', 'Successfully logged in');
+    res.cookie('token', req.user.token, {
+      maxAge: 1000 * 1 * 60 * 60 * 24 * 365,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    res.redirect('/user-dashboard'); // TODO: redirect to user service url
+  }
+
+  @Get('user/register')
+  @Render('auth/user/register')
+  userRegister(): any {
+    return { title: 'User Register' };
+  }
+
+  @Post('user/register')
+  doUserRegistration(
+    @Body() data: CreateUserDTO,
+    @Res() res: Response,
+    @Req() req: AppRequest,
+  ): any {
+    this.authService.registerUser(data);
+    req.flash('successMsg', 'Successfully registered');
+    res.redirect('/');
   }
 }
