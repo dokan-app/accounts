@@ -29,6 +29,7 @@ const config: ConfigService = new ConfigService();
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
+
     AppsModule,
     AdminModule,
     SessionModule,

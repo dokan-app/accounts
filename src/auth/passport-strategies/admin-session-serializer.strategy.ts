@@ -2,7 +2,6 @@ import { PassportSerializer } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { AdminService } from 'src/admin/admin.service';
 import { AuthPayload } from '../auth.dto';
-import { use } from 'passport';
 import { AUTH_DOMAIN } from 'src/session/session.types';
 @Injectable()
 export class AdminSessionSerializer extends PassportSerializer {

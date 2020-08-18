@@ -1,6 +1,7 @@
 import {} from 'class-validator';
 import { AuthPayload } from 'src/auth/auth.dto';
 import { AUTH_DOMAIN } from 'src/session/session.types';
+import { Request } from 'express';
 
 export interface ResourceList<DataModel> {
   currentPage: number;

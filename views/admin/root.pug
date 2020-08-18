@@ -1,8 +1,7 @@
-extends ../layouts/admin.pug
+extends /layouts/blank.pug
 
 block body
-    h1 Admin Area
-    h3 #{user.name}
-    h3 #{user.email}
-    form(action="/auth/logout" method="POST")
-        button(type="submit") Logout
+    #admin-frontend
+
+block footerHook
+    script(src="/compiled/admin/index.js")

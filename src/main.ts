@@ -38,11 +38,12 @@ async function bootstrap() {
   app.set('views', join(__dirname, '../views'));
 
   const options = new DocumentBuilder()
-    .setTitle('Dokan OAuth API')
-    .setDescription('Dokan OAuth API documentation')
+    .setTitle('Dokan Accounts API')
+    .setDescription('Dokan Accounts API documentation')
     .setVersion('0.0.1')
     .addBearerAuth()
     .build();
+
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-doc', app, document);
 

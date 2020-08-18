@@ -4,6 +4,8 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JWTPayload } from 'src/session/session.types';
 import { SessionService } from 'src/session/session.service';
+import { AppRequest } from 'src/shared/types';
+import { Request } from 'express';
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -16,6 +18,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
         ExtractJwt.fromAuthHeaderAsBearerToken(),
         ExtractJwt.fromUrlQueryParameter('token'),
         ExtractJwt.fromBodyField('token'),
+        (req: Request) => req?.cookies?.token,
       ]),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('APP_SECRET'),
