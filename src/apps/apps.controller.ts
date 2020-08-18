@@ -36,7 +36,10 @@ export class AppsController {
   }
 
   @Put(':_id')
-  async edit(@Param('_id') _id: string, data: UpdateAppDTO): Promise<App> {
+  async edit(
+    @Param('_id') _id: string,
+    @Body() data: UpdateAppDTO,
+  ): Promise<App> {
     return this.appsService.update(_id, data);
   }
 
