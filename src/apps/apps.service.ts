@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { App } from './apps.model';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { destroy } from 'quick-crud';
+import { destroy, index } from 'quick-crud';
 import { CreateAppDTO, UpdateAppDTO } from './apps.dto';
+import { ResourceList, PaginationQueryDTO } from 'src/shared/types';
 
 @Injectable()
 export class AppsService {
@@ -12,17 +13,18 @@ export class AppsService {
     private readonly model: ReturnModelType<typeof App>,
   ) {}
 
-  async list(): Promise<App[]> {
-    return this.model.find({}).sort({ updatedAt: -1 });
+  async index(query: PaginationQueryDTO): Promise<ResourceList<App>> {
+    return index({ model: this.model, paginationOptions: query });
   }
 
-  async create(data: CreateAppDTO): Promise<App> {
+  async store(data: CreateAppDTO): Promise<App> {
     return this.model.create(data);
   }
 
   async update(_id: string, data: UpdateAppDTO): Promise<App> {
     return this.model.findByIdAndUpdate(_id, data);
   }
+
   async getById(_id: string): Promise<any> {
     return this.model.findById({ _id });
   }

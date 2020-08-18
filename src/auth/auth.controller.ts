@@ -32,15 +32,24 @@ import { AuthGuard } from '@nestjs/passport';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Register a admin
+   * This will work for first time
+   * @param body AdminRegisterDTO
+   */
   @Post('/admin/register')
   registerAdmin(@Body() body: AdminRegisterDTO): Promise<Admin> {
     return this.authService.registerAdmin(body);
   }
 
+  /**
+   * Login adin with credentials
+   * @param data AdminLoginDTO
+   */
   @Post('/admin/login')
   @HttpCode(HttpStatus.OK)
-  loginAdmin(@Body() body: AdminLoginDTO, @Res() res: Response): any {
-    return this.authService.loginAdmin(body, res);
+  loginAdmin(@Body() data: AdminLoginDTO): any {
+    return this.authService.loginAdmin(data);
   }
 
   @Auth(AUTH_DOMAIN.ADMIN)
@@ -66,15 +75,15 @@ export class AuthController {
     return this.authService.logoutUser(req.user);
   }
 
-  @UseGuards(AuthGuard('facebook'))
-  @Get('/facebook')
-  loginWithFacebook(): void {
-    return;
-  }
+  // @UseGuards(AuthGuard('facebook'))
+  // @Get('/facebook')
+  // loginWithFacebook(): void {
+  //   return;
+  // }
 
-  @UseGuards(AuthGuard('facebook'))
-  @Get('/facebook/callback')
-  loginWithFacebookCallback(): void {
-    return;
-  }
+  // @UseGuards(AuthGuard('facebook'))
+  // @Get('/facebook/callback')
+  // loginWithFacebookCallback(): void {
+  //   return;
+  // }
 }

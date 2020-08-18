@@ -47,8 +47,10 @@ export class AuthService {
    * Login an admin
    * @param data AdminLoginDTO
    */
-  async loginAdmin(data: AdminLoginDTO, res?: Response): Promise<AuthPayload> {
+  async loginAdmin(data: AdminLoginDTO): Promise<AuthPayload> {
     const { identifier, password } = data;
+
+    console.log({ identifier, password });
 
     // find admin with identifier
     const admin = await this.adminService.getByIdentifier(identifier);
