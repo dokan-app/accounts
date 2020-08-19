@@ -1,5 +1,12 @@
 # Dokan OAuth Module
 
+- Framework: Nestjs
+- Frontend: React and pug template engine
+- Database: mongodb
+- Cache:    Redis
+
+
+
 ## Installation
 
 ```bash
