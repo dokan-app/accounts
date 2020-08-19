@@ -19,7 +19,6 @@ import { CreateUserDTO } from 'src/users/user.dto';
 import { UserLoginGuard } from './guards/user-login.guard';
 import { OAuthQueryparams } from './auth.dto';
 import { AppsService } from 'src/apps/apps.service';
-import { randomBytes } from 'crypto';
 
 @Controller('auth')
 export class AuthviewController {
@@ -88,7 +87,6 @@ export class AuthviewController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
     });
-
     res.redirect('/user-dashboard'); // TODO: redirect to user service url
   }
 
@@ -110,24 +108,30 @@ export class AuthviewController {
   }
 
   @Get('oauth')
-  oauth(
+  async oauth(
     @Query() query: OAuthQueryparams,
     @Req() req: AppRequest,
     @Res() res: Response,
   ) {
-    const app = this.appService.getByClientIdAndRedirectUrl(query);
+    const app = await this.appService.getByClientIdAndRedirectUrl(query);
 
     //1.  User is not logged in
-    if (!req.isAuthenticated())
-      res.redirect(`/auth/user/login?redirectUrl=${query.redirectUrl}`);
+    if (!req.isAuthenticated()) {
+      const url = `/auth/oauth?clientId=${query.clientId}&redirectUrl=${query.redirectUrl}`;
+      // req.session.oAuthurl = url;
+      res.redirect(url);
+    }
 
     //2. user is logged in
 
     //2.1 Create a oAuth token
-    const buffer = randomBytes(10);
-    const oAuthCode = buffer.toString('hex');
+    const code = await this.appService.storeApplicationInCache(
+      app.clientId,
+      app.name,
+      req.user._id,
+    );
 
     // 3. Redirect to client app with oAuth App
-    res.redirect(`${query.redirectUrl}?oauth_code=${oAuthCode}`);
+    res.redirect(`${query.redirectUrl}?oauth_code=${code}`);
   }
 }
