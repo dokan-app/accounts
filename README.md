@@ -26,6 +26,10 @@ $ npm run start:prod
 ```
 
 ## OAuth Login Workflow
+![image](https://user-images.githubusercontent.com/7611746/90690482-95d42680-e293-11ea-96c8-7c5fbecebad5.png)
+
+
+
 
 Register an app from oauth admin and get `clientId` and `clientSecret`
 
