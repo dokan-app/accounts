@@ -6,9 +6,9 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import { destroy, index } from 'quick-crud';
 import { CreateAppDTO, UpdateAppDTO } from './apps.dto';
 import { ResourceList, PaginationQueryDTO } from 'src/shared/types';
-import { OAuthQueryparams } from 'src/auth/auth.dto';
 import { RedisService } from 'nestjs-redis';
 import { randomBytes } from 'crypto';
+import { OAuthQueryparams } from 'src/oauth/oauth.dto';
 
 @Injectable()
 export class AppsService {
@@ -38,6 +38,13 @@ export class AppsService {
     return this.model.findOne({ clientid });
   }
 
+  async getByClientIdAndRedirectUrlAnd(query: OAuthQueryparams): Promise<App> {
+    const app = await this.model.findOne(query);
+    if (!app) throw new BadGatewayException('Invalid oAuth App');
+
+    return app;
+  }
+
   async getByClientIdAndRedirectUrl(query: OAuthQueryparams): Promise<App> {
     const app = await this.model.findOne(query);
     if (!app) throw new BadGatewayException('Invalid oAuth App');
@@ -65,10 +72,10 @@ export class AppsService {
     const redis = this.redis.getClient('dokan-accounts');
 
     // check user exists on UserCache
-    redis.sadd(userId, appName);
+    redis.sadd(`user-id-${userId}`, appName);
 
     // Store oAuthCode to cache
-    redis.hset('oAuthCodes', oAuthCode, appName);
+    redis.hset('oAuthCodes', oAuthCode, `${userId}|${appName}`);
 
     return oAuthCode;
   }

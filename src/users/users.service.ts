@@ -37,8 +37,8 @@ export class UsersService {
     return doc;
   }
 
-  async getById(_id: string): Promise<DocumentType<User>> {
-    const doc = await this.model.findById(_id);
+  async getById(_id: string, select?: string): Promise<DocumentType<User>> {
+    const doc = await this.model.findById(_id).select(select);
     return doc;
   }
 

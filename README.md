@@ -32,7 +32,7 @@ Register an app from oauth admin and get `clientId` and `clientSecret`
 **Get oAuth Code**
 
 ```
-GET accounts.dokan.app/auth/oauth
+GET accounts.dokan.app/api/oauth/authorize
 ```
 
 **Query parameters**
@@ -45,7 +45,7 @@ GET accounts.dokan.app/auth/oauth
 ### User will redirect back to client redirect url with `oauth code` like this
 
 ```
-https://admin.dokan.app/login?oauth_code=xxxxxxx
+<registered_app_redirect_url>?oauth_code=xxxxxxx
 ```
 
 ### Get user info using `oauth_code`
@@ -53,7 +53,7 @@ https://admin.dokan.app/login?oauth_code=xxxxxxx
 This `oauth_code` can be use for only one
 
 ```
-https://admin.dokan.app/access_token
+POST accounts.dokan.app/api/oauth/access_token
 ```
 
 **Request body**
@@ -75,6 +75,15 @@ https://admin.dokan.app/access_token
 
 ```
 {
-
+    "provider": "accounts.dokan.app",
+    "version": "v0.0.1",
+    "appName": "admin.dokan.app",
+    "data": {
+        "_id": "5f3d2631691fb60d28ae6a52",
+        "name": "King Rayhan",
+        "username": "rayhan",
+        "email": "rayhan095@gmail.com",
+        "id": "5f3d2631691fb60d28ae6a52"
+    }
 }
 ```

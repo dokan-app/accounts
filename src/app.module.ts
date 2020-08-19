@@ -17,6 +17,7 @@ import { UserDashbaordModule } from './user-dashbaord/user-dashbaord.module';
 
 import { RedisModule } from 'nestjs-redis';
 import { Redis } from 'ioredis';
+import { OauthModule } from './oauth/oauth.module';
 
 const config: ConfigService = new ConfigService();
 
@@ -56,6 +57,7 @@ const config: ConfigService = new ConfigService();
     UsersModule,
     AdminDashboardModule,
     UserDashbaordModule,
+    OauthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

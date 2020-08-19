@@ -6,19 +6,13 @@ import {
   HttpCode,
   HttpStatus,
   UseFilters,
-  Get,
-  UseGuards,
-  Res,
-  Query,
 } from '@nestjs/common';
-import { Response } from 'express';
 import {
   AdminRegisterDTO,
   AdminLoginDTO,
   AuthPayload,
   UserRegisterDTO,
   UserLoginDTO,
-  OAuthQueryparams,
 } from './auth.dto';
 import { AuthService } from './auth.service';
 import { Admin } from 'src/admin/admin.model';
@@ -27,7 +21,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { Auth } from './decorators/auth.decorator';
 import { User } from 'src/users/users.model';
 import { MongoExceptionFilter } from 'src/utils/app-exception.filter';
-import { AppsService } from 'src/apps/apps.service';
 
 @ApiTags('Authentication')
 @Controller('api/auth')
@@ -76,16 +69,4 @@ export class AuthController {
   logoutUser(@Req() req: SessionRequest): any {
     return this.authService.logoutUser(req.user);
   }
-
-  // @UseGuards(AuthGuard('facebook'))
-  // @Get('/facebook')
-  // loginWithFacebook(): void {
-  //   return;
-  // }
-
-  // @UseGuards(AuthGuard('facebook'))
-  // @Get('/facebook/callback')
-  // loginWithFacebookCallback(): void {
-  //   return;
-  // }
 }

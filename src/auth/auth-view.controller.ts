@@ -17,15 +17,10 @@ import { CreateAdminDTO } from 'src/admin/admin.dto';
 import { AppRequest } from 'src/shared/types';
 import { CreateUserDTO } from 'src/users/user.dto';
 import { UserLoginGuard } from './guards/user-login.guard';
-import { OAuthQueryparams } from './auth.dto';
-import { AppsService } from 'src/apps/apps.service';
 
 @Controller('auth')
 export class AuthviewController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly appService: AppsService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('logout')
   logout(@Req() req: AppRequest, @Res() res: Response) {
@@ -91,7 +86,7 @@ export class AuthviewController {
     const query = req.session.oAuthRedirectQueries;
     if (query) {
       req.session.oAuthRedirectQueries = '';
-      res.redirect(`/auth/oauth?${query}`);
+      res.redirect(`/api/oauth/authorize?${query}`);
     }
 
     res.redirect('/user-dashboard');
@@ -112,33 +107,5 @@ export class AuthviewController {
     this.authService.registerUser(data);
     req.flash('successMsg', 'Successfully registered');
     res.redirect('/');
-  }
-
-  @Get('oauth')
-  async oauth(
-    @Query() query: OAuthQueryparams,
-    @Req() req: AppRequest,
-    @Res() res: Response,
-  ) {
-    const app = await this.appService.getByClientIdAndRedirectUrl(query);
-
-    //1.  User is not logged in
-    if (!req.isAuthenticated()) {
-      const oAuthRedirectQueries = `clientId=${query.clientId}&redirectUrl=${query.redirectUrl}`;
-      req.session.oAuthRedirectQueries = oAuthRedirectQueries;
-      res.redirect(`/auth/user/login?${oAuthRedirectQueries}`);
-    }
-
-    //2. user is logged in
-
-    //2.1 Create a oAuth token
-    const code = await this.appService.storeApplicationInCache(
-      app.clientId,
-      app.name,
-      req.user._id,
-    );
-
-    // 3. Redirect to client app with oAuth App
-    res.redirect(`${query.redirectUrl}?oauth_code=${code}`);
   }
 }

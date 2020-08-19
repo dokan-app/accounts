@@ -1,11 +1,9 @@
 import {
   Controller,
   Get,
-  UseGuards,
   Param,
   Post,
   Body,
-  Res,
   applyDecorators,
   Put,
   Delete,
