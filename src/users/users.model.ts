@@ -2,7 +2,6 @@ import { prop, pre, plugin, Ref, modelOptions } from '@typegoose/typegoose';
 import { hashSync } from 'bcryptjs';
 import * as uniqueValidator from 'mongoose-unique-validator';
 import { compare } from 'bcryptjs';
-import { USER_GENDER } from './users.type';
 import { Role } from 'src/role/role.model';
 
 @plugin(uniqueValidator, { message: '{VALUE} already taken' })

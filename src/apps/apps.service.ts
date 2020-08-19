@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadGatewayException } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { App } from './apps.model';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { destroy, index } from 'quick-crud';
 import { CreateAppDTO, UpdateAppDTO } from './apps.dto';
 import { ResourceList, PaginationQueryDTO } from 'src/shared/types';
+import { OAuthQueryparams } from 'src/auth/auth.dto';
 
 @Injectable()
 export class AppsService {
@@ -33,6 +34,13 @@ export class AppsService {
     return this.model.find({ clientid });
   }
 
+  async getByClientIdAndRedirectUrl(query: OAuthQueryparams): Promise<any> {
+    const app = await this.model.findOne(query);
+    if (!app) throw new BadGatewayException('Invalid oAuth App');
+
+    return app;
+  }
+
   async getByClientSecrey(clientSecret: string): Promise<any> {
     return this.model.find({ clientSecret });
   }
@@ -40,4 +48,8 @@ export class AppsService {
   async deleteApp(_id: string): Promise<any> {
     return destroy({ model: this.model, where: { _id } });
   }
+
+  // async storeApplicationInCache(oAuthCode: string){
+
+  // }
 }

@@ -19,6 +19,7 @@ export class PaginationQueryDTO {
 }
 
 export interface SessionUser {
+  _id: string;
   name: string;
   username: string;
   email: string;

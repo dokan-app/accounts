@@ -94,3 +94,11 @@ export class UserRegisterDTO {
   @IsNotEmpty()
   password: string;
 }
+
+export class OAuthQueryparams {
+  @IsNotEmpty()
+  clientId: string;
+
+  @IsNotEmpty()
+  redirectUrl: string;
+}

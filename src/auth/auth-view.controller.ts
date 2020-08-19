@@ -7,6 +7,7 @@ import {
   Res,
   Render,
   Req,
+  Query,
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
@@ -16,10 +17,16 @@ import { CreateAdminDTO } from 'src/admin/admin.dto';
 import { AppRequest } from 'src/shared/types';
 import { CreateUserDTO } from 'src/users/user.dto';
 import { UserLoginGuard } from './guards/user-login.guard';
+import { OAuthQueryparams } from './auth.dto';
+import { AppsService } from 'src/apps/apps.service';
+import { randomBytes } from 'crypto';
 
 @Controller('auth')
 export class AuthviewController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly appService: AppsService,
+  ) {}
 
   @Post('logout')
   logout(@Req() req: AppRequest, @Res() res: Response) {
@@ -100,5 +107,27 @@ export class AuthviewController {
     this.authService.registerUser(data);
     req.flash('successMsg', 'Successfully registered');
     res.redirect('/');
+  }
+
+  @Get('oauth')
+  oauth(
+    @Query() query: OAuthQueryparams,
+    @Req() req: AppRequest,
+    @Res() res: Response,
+  ) {
+    const app = this.appService.getByClientIdAndRedirectUrl(query);
+
+    //1.  User is not logged in
+    if (!req.isAuthenticated())
+      res.redirect(`/auth/user/login?redirectUrl=${query.redirectUrl}`);
+
+    //2. user is logged in
+
+    //2.1 Create a oAuth token
+    const buffer = randomBytes(10);
+    const oAuthCode = buffer.toString('hex');
+
+    // 3. Redirect to client app with oAuth App
+    res.redirect(`${query.redirectUrl}?oauth_code=${oAuthCode}`);
   }
 }

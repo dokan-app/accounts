@@ -14,6 +14,7 @@ import { SessionSerializer } from './passport-strategies/session-serializer.stra
 import { AuthviewController } from './auth-view.controller';
 import { AdminLoginStrategy } from './passport-strategies/admin-login-local.strategy';
 import { UserLoginStrategy } from './passport-strategies/user-login-local.strategy';
+import { AppsModule } from 'src/apps/apps.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UserLoginStrategy } from './passport-strategies/user-login-local.strate
     SessionModule,
     RoleModule,
     PassportModule,
+    AppsModule,
   ],
   providers: [
     AuthService,

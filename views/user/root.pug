@@ -1,5 +1,19 @@
 extends /layouts/blank.pug
+include _userForm.pug
+include _passwordForm.pug
 
 block body
     include /partials/_loggedinNavbar
-    pre=dump(user)
+    .container.mt-10
+        .row
+            .col-md-6
+                h2.text-3xl Welcome #{user.name}
+        .row.mt-5
+            .col-md-4
+                .card.p-3
+                    +UserForm(user)
+
+            .col-md-4
+                .card.p-3
+                    +PasswordForm()
+                

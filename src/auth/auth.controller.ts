@@ -9,6 +9,7 @@ import {
   Get,
   UseGuards,
   Res,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
@@ -17,6 +18,7 @@ import {
   AuthPayload,
   UserRegisterDTO,
   UserLoginDTO,
+  OAuthQueryparams,
 } from './auth.dto';
 import { AuthService } from './auth.service';
 import { Admin } from 'src/admin/admin.model';
@@ -25,7 +27,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Auth } from './decorators/auth.decorator';
 import { User } from 'src/users/users.model';
 import { MongoExceptionFilter } from 'src/utils/app-exception.filter';
-import { AuthGuard } from '@nestjs/passport';
+import { AppsService } from 'src/apps/apps.service';
 
 @ApiTags('Authentication')
 @Controller('api/auth')
