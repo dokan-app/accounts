@@ -87,7 +87,14 @@ export class AuthviewController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
     });
-    res.redirect('/user-dashboard'); // TODO: redirect to user service url
+
+    const query = req.session.oAuthRedirectQueries;
+    if (query) {
+      req.session.oAuthRedirectQueries = '';
+      res.redirect(`/auth/oauth?${query}`);
+    }
+
+    res.redirect('/user-dashboard');
   }
 
   @Get('user/register')
@@ -117,9 +124,9 @@ export class AuthviewController {
 
     //1.  User is not logged in
     if (!req.isAuthenticated()) {
-      const url = `/auth/oauth?clientId=${query.clientId}&redirectUrl=${query.redirectUrl}`;
-      // req.session.oAuthurl = url;
-      res.redirect(url);
+      const oAuthRedirectQueries = `clientId=${query.clientId}&redirectUrl=${query.redirectUrl}`;
+      req.session.oAuthRedirectQueries = oAuthRedirectQueries;
+      res.redirect(`/auth/user/login?${oAuthRedirectQueries}`);
     }
 
     //2. user is logged in

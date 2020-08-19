@@ -1,6 +1,4 @@
-# accounts.dokan.app
-
-dokan.app authentication module
+# Dokan OAuth Module
 
 ## Installation
 
@@ -21,21 +19,62 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## API Documentation
+#### API Documentation
 
 ```bash
-<APP_URL>/api-documentation
+<APP_URL>/api-doc
 ```
+
+## OAuth Login Workflow
+
+Register an app from oauth admin and get `clientId` and `clientSecret`
+
+**Get oAuth Code**
+
+```
+GET accounts.dokan.app/auth/oauth
+```
+
+**Query parameters**
+
+| Query name  | Description             |
+| ----------- | ----------------------- |
+| clientId    | Aplication client       |
+| redirectUrl | Aplication redirect url |
+
+### User will redirect back to client redirect url with `oauth code` like this
+
+```
+https://admin.dokan.app/login?oauth_code=xxxxxxx
+```
+
+### Get user info using `oauth_code`
+
+This `oauth_code` can be use for only one
+
+```
+https://admin.dokan.app/access_token
+```
+
+**Request body**
+| Name | Description |
+| ------------ | ----------------------- |
+| clientId | Aplication client |
+| oauth_code | Aplication clientSecret |
+| redirectUrl | Aplication redirect url |
+
+**Request Header**
 
 ```
 {
-    "_id": "5f3d27aef37a860d6af1cd73",
-    "name": "admin.dokan.app",
-    "redirectUrl": "http://admin.dokan.app/login",
-    "createdAt": "2020-08-19T13:22:54.272Z",
-    "updatedAt": "2020-08-19T13:22:54.272Z",
-    "clientSecret": "$2a$10$d7Rv/rDBuN4/BkYrOXhCRuhzdUpJbaOZVVFdpmPZur5KLEimdAsHS",
-    "clientId": "c86b25212c0548f722d97954",
-    "__v": 0
+    "Authorization": "Bearer <clientScret>"
+}
+```
+
+## After validating everything user data will be in response
+
+```
+{
+
 }
 ```
