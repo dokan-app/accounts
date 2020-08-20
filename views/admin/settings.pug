@@ -1,0 +1,28 @@
+extends /layouts/admin.pug
+
+include /partials/_input
+include /partials/_container
+
+block body
+    h1 Settings
+    form(action="/admin-dashboard/update-profile" method="POST")
+    
+        +Input({ 
+            name: 'name', 
+            placeholder: "Your name",
+            value: user.name
+        })
+
+        +Input({ 
+            name: 'username', 
+            placeholder: "Your username",
+            value: user.username
+        })
+
+        +Input({ 
+            name: 'email', 
+            placeholder: "Your email address",
+            value: user.email
+        })
+
+        button.btn.btn-primary.btn-sm Save

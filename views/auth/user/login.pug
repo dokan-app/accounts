@@ -1,0 +1,25 @@
+extends /layouts/main.pug
+include /partials/_input.pug
+
+block body
+    .container
+        .row
+            .col-md-4
+                .card
+                    .card-body
+                        form(action='/auth/user/login' method='POST')
+
+                            +Input({ 
+                                name: 'identifier', 
+                                placeholder: "Your name",
+                            },errors)
+
+                            +Input({ 
+                                name: 'password', 
+                                placeholder: "Your name",
+                                type: 'password'
+                            },errors)
+
+                            button.btn.btn-primary.btn-sm Login
+
+                        a.mt-5(href="/auth/user/register") Create new account

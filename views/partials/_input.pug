@@ -1,0 +1,14 @@
+mixin Input(props={}, errors={})
+    .form-group
+        label(for=props.name) #{props.name[0].toUpperCase() + props.name.slice(1)}
+
+        input.form-control(
+            class=errors[props.name] ? 'is-invalid': ''
+            id=props.name 
+            type=props.type || 'text'
+            name=props.name 
+            value=props.value 
+            placeholder=props.placeholder
+        )&attributes(attributes)
+
+        .invalid-feedback=errors[props.name]

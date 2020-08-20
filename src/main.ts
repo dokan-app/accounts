@@ -14,15 +14,19 @@ import * as cookie from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
+/**
+ * Filters
+ */
 import { PageNotFoundExceptionFilter } from './shared/filters/PageNotFound.filters';
 import { ValidationExceptionFilter } from './shared/filters/ValidationError.filters';
 import { PermissionDeniedExceptionFilter } from './shared/filters/PermissionDeniedExceptionFilter';
 import { ForbiddenExceptionFilter } from './shared/filters/ForbiddenExceptionFilter';
+import { UnAuthorizedExceptionFilter } from './shared/filters/UnAuthorizedExceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const express = app.getHttpAdapter().getInstance();
-  app.useGlobalPipes(new AppValidationPipe());
 
   /**
    * Initialize config
@@ -38,11 +42,12 @@ async function bootstrap() {
   app.set('views', join(__dirname, '../views'));
 
   const options = new DocumentBuilder()
-    .setTitle('Dokan OAuth API')
-    .setDescription('Dokan OAuth API documentation')
+    .setTitle('Dokan Accounts API')
+    .setDescription('Dokan Accounts API documentation')
     .setVersion('0.0.1')
     .addBearerAuth()
     .build();
+
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-doc', app, document);
 
@@ -74,6 +79,8 @@ async function bootstrap() {
     next();
   });
 
+  app.useGlobalFilters(new UnAuthorizedExceptionFilter());
+  app.useGlobalPipes(new AppValidationPipe());
   app.useGlobalFilters(new ForbiddenExceptionFilter());
   app.useGlobalFilters(new PageNotFoundExceptionFilter());
   app.useGlobalFilters(new ValidationExceptionFilter());

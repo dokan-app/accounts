@@ -1,0 +1,23 @@
+include /partials/_input.pug
+
+mixin UserForm(user={})
+    form(action="/user-dashboard/update-profile" method="post")
+        +Input({
+            name: 'name',
+            placeholder: 'Your Name',
+            value: user.name
+        },errors)
+
+        +Input({
+            name: 'username',
+            placeholder: 'Your username',
+            value: user.username
+        },errors)
+
+        +Input({
+            name: 'email',
+            placeholder: 'Your email address',
+            value: user.email
+        },errors)
+
+        button.btn.btn-success.btn-sm Save

@@ -47,7 +47,7 @@ export class AuthService {
    * Login an admin
    * @param data AdminLoginDTO
    */
-  async loginAdmin(data: AdminLoginDTO, res?: Response): Promise<AuthPayload> {
+  async loginAdmin(data: AdminLoginDTO): Promise<AuthPayload> {
     const { identifier, password } = data;
 
     // find admin with identifier
@@ -95,16 +95,16 @@ export class AuthService {
     const { identifier, password } = data;
 
     // find admin with identifier
-    const admin = await this.usersService.getByIdentifier(identifier);
-    if (!admin) throw new UnauthorizedException();
+    const user = await this.usersService.getByIdentifier(identifier);
+    if (!user) throw new UnauthorizedException();
 
     // Matched password
-    const passwordMatched = await admin.comparePassword(password);
+    const passwordMatched = await user.comparePassword(password);
     if (!passwordMatched) throw new UnauthorizedException();
 
     // generate token for admin
     const authPayload = await this.session.findOrCreateSession(
-      admin._id,
+      user._id,
       AUTH_DOMAIN.USER,
     );
     return authPayload;

@@ -5,15 +5,12 @@ head
   title #{title} | Dokan Accounts 
   link(rel='stylesheet' href='/css/bootstrap.css')
   link(rel='stylesheet' href='/css/app.css')
+  link(rel='stylesheet' href='https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css')
   block headerHook
 
 include /partials/_alert.pug
 
-.container.my-4
-  .row
-    .col-md-12
-      block body
-
+block body
 
 script(src='/js/jquery-3.5.1.slim.min.js')
 script(src='/js/popper.min.js')

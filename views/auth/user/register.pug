@@ -1,0 +1,38 @@
+extends /layouts/main.pug
+include /partials/_input.pug
+
+
+block body
+    .container
+        .row
+            .col-md-4
+                .card
+                    .card-body
+                        form(action='/auth/user/register' method='POST')
+                            +Input({ 
+                                name: 'name', 
+                                placeholder: "Your name",
+                            },errors)
+                            
+                            +Input({ 
+                                name: 'username', 
+                                placeholder: "Your username",
+                            },errors)
+                            
+                            +Input({ 
+                                name: 'email', 
+                                placeholder: "Your email address",
+                                type: 'email',
+                            },errors)
+
+                            +Input({ 
+                                name: 'password', 
+                                placeholder: "******",
+                                type: 'password',
+                                errors: errors
+                            },errors)
+
+                            button.btn.btn-primary.btn-sm Register
+
+                        p.mt-2 Already have an account?&nbsp;&nbsp;
+                          a(href="/auth/user/login") Login now

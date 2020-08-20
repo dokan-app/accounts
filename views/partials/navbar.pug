@@ -1,14 +1,21 @@
+mixin navItem(label, url)
+  li.nav-item
+    a.nav-link(href=url) #{label}
+
+form(action="/auth/logout" method="POST" id="logout-form")
 nav.navbar.navbar-expand-lg.navbar-light.bg-light
-  a.navbar-brand(href='/') Accounts.dokan.app
+  a.navbar-brand(href='/') Dokan Accounts
   button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
     span.navbar-toggler-icon
   #navbarSupportedContent.collapse.navbar-collapse
-    ul.navbar-nav.mr-auto.nav
-      li.nav-item
-        a.nav-link(href='/auth/login') Login
-      li.nav-item
-        a.nav-link(href='/auth/register') Register
-      li.nav-item
-        a.nav-link(href='/auth/admin/login') Admin Login
-      li.nav-item
-        a.nav-link(href='/auth/admin/register') Admin Register
+    ul.navbar-nav.ml-auto.nav
+      if(user)
+        if(user.domain === 'USER')
+          +navItem("Dashboard", "/user-dashboard")
+        else
+          +navItem("Dashboard", "/admin-dashboard")
+        a.nav-link(href='javascript:void(0)' onclick="confirm('Sure to logout?') && document.getElementById('logout-form').submit()") Logout
+      else
+        +navItem("Login", "/auth/user/login")
+        +navItem("Register", "/auth/user/register")
+

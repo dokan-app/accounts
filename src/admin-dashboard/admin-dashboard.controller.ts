@@ -1,8 +1,8 @@
 import { Controller, Get, Render, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
-import { AuthenticatedAdminGuardGuard } from 'src/auth/guards/authenticated-admin.guard';
+import { AuthenticatedAdminGuard } from 'src/auth/guards/authenticated-admin.guard';
 
-@UseGuards(AuthenticatedAdminGuardGuard)
+@UseGuards(AuthenticatedAdminGuard)
 @Controller('admin-dashboard')
 export class AdminDashboardController {
   // constructor(private readonly appsService: AppsService) {}

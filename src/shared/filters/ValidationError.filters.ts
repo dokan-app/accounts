@@ -4,6 +4,7 @@ import {
   ArgumentsHost,
   HttpException,
   BadRequestException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
@@ -19,12 +20,12 @@ export class ValidationExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<IRequestFlash>();
 
     if (request.url.includes('/api/')) {
-      response.json(exception);
+      response.status(HttpStatus.BAD_REQUEST).json(exception);
     } else {
       const err: any = exception;
       request.flash('errorMsg', 'You have some validation error');
       request.flash('errors', err.response.errors);
-      response.redirect('back');
+      response.status(HttpStatus.BAD_REQUEST).redirect('back');
     }
   }
 }
